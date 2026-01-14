@@ -1,0 +1,1705 @@
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="color-scheme" content="light" />
+		<title>Portfolio — Alias Magagoto</title>
+		<meta name="description" content="Portfolio PDF + contact — Alias Magagoto." />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Unbounded:wght@400;500;600;700;800&display=swap"
+		/>
+
+		<style>
+			:root {
+				--bg: #ffffff;
+				--fg: #0f172a;
+				--muted: #475569;
+				--border: #e2e8f0;
+				--surface: #f8fafc;
+				--focus: #0f172a;
+				--accent: #ff4d00;
+				--radius: 14px;
+				--max: 1240px;
+				--font-sans: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+					Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+				--font-display: "Unbounded", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+					Arial, "Apple Color Emoji", "Segoe UI Emoji";
+			}
+
+			* {
+				box-sizing: border-box;
+			}
+
+			html {
+				scroll-behavior: smooth;
+				background: var(--bg);
+			}
+
+			body {
+				margin: 0;
+				position: relative;
+				font-family: var(--font-sans);
+				text-rendering: optimizeLegibility;
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+				color: var(--fg);
+				background-color: var(--bg);
+				line-height: 1.5;
+				overflow-x: hidden;
+				min-height: 100vh;
+				isolation: isolate;
+			}
+
+			/* Fond image flouté (contenu net) */
+			body::before {
+				content: "";
+				position: fixed;
+				inset: -30px;
+				z-index: -1;
+				pointer-events: none;
+				background-image:
+					url("Image%20couverture%20.jpg"),
+					url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
+				background-repeat: no-repeat, repeat;
+				background-size: cover, 260px 260px;
+				background-position: center, 0 0;
+				background-blend-mode: normal, multiply;
+				filter: blur(4px) saturate(0.98) brightness(1.02);
+				opacity: 0.10;
+				transform: translateZ(0);
+				will-change: filter, opacity;
+			}
+
+
+			@media (prefers-reduced-motion: no-preference) {
+				* {
+					scroll-behavior: smooth;
+				}
+			}
+
+			a {
+				color: inherit;
+			}
+
+			.skip-link {
+				position: absolute;
+				left: -9999px;
+				top: 8px;
+				background: var(--bg);
+				border: 1px solid var(--border);
+				padding: 10px 12px;
+				border-radius: 10px;
+			}
+			.skip-link:focus {
+				left: 12px;
+				z-index: 9999;
+				outline: 2px solid var(--accent);
+				outline-offset: 2px;
+			}
+
+			.container {
+				width: min(100% - 32px, var(--max));
+				margin: 0 auto;
+			}
+
+			/* Header plein écran (collé au bord) */
+			header .container.nav {
+				width: 100%;
+				max-width: none;
+				margin: 0;
+				padding-left: 23px;
+				padding-right: 23px;
+			}
+
+			header {
+				position: sticky;
+				top: 0;
+				z-index: 10;
+				border-bottom: 1px solid var(--border);
+				background: color-mix(in srgb, var(--bg) 92%, transparent);
+				backdrop-filter: blur(10px);
+			}
+
+			.nav {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 16px;
+				padding: 14px 0;
+			}
+
+			.brand {
+				display: flex;
+				flex-direction: column;
+				gap: 2px;
+				text-decoration: none;
+			}
+
+			.brand strong {
+				font-size: 14px;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+				color: var(--accent);
+			}
+
+			@keyframes accent-pop {
+				0% {
+					transform: translateY(0);
+					filter: none;
+				}
+				45% {
+					transform: translateY(-1px);
+					filter: drop-shadow(0 10px 18px color-mix(in srgb, var(--accent) 20%, transparent));
+				}
+				100% {
+					transform: translateY(0);
+					filter: none;
+				}
+			}
+
+			@media (prefers-reduced-motion: no-preference) {
+				.brand strong {
+					animation: accent-pop 2200ms ease-in-out infinite;
+				}
+			}
+
+			.brand span {
+				font-size: 13px;
+				color: var(--muted);
+			}
+
+			nav ul {
+				display: flex;
+				align-items: center;
+				gap: 14px;
+				list-style: none;
+				margin: 0;
+				padding: 0;
+				flex-wrap: wrap;
+				justify-content: flex-end;
+			}
+
+			nav a {
+				text-decoration: none;
+				font-size: 14px;
+				padding: 8px 10px;
+				border-radius: 10px;
+				position: relative;
+				transition: background 160ms ease, transform 160ms ease;
+			}
+			nav a:hover {
+				background: color-mix(in srgb, var(--accent) 10%, var(--surface));
+			}
+			@media (prefers-reduced-motion: no-preference) {
+				nav a:hover {
+					transform: translateY(-1px);
+				}
+			}
+			nav a::after {
+				content: "";
+				position: absolute;
+				left: 10px;
+				right: 10px;
+				bottom: 6px;
+				height: 2px;
+				border-radius: 999px;
+				background: var(--accent);
+				transform: scaleX(0);
+				transform-origin: left;
+				opacity: 0.75;
+			}
+			@media (prefers-reduced-motion: no-preference) {
+				nav a::after {
+					transition: transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
+				}
+				nav a:hover::after {
+					transform: scaleX(1);
+				}
+			}
+			nav a:focus {
+				outline: 2px solid var(--accent);
+				outline-offset: 2px;
+			}
+
+			main {
+				padding: 28px 0 70px;
+			}
+
+			.hero {
+				padding: 0;
+			}
+
+			h1 {
+				margin: 0 0 10px;
+				font-family: var(--font-display);
+				font-weight: 700;
+				font-size: clamp(28px, 4vw, 44px);
+				letter-spacing: -0.02em;
+				line-height: 1.08;
+			}
+
+			.lead {
+				margin: 0 0 16px;
+				color: var(--muted);
+				font-size: 16px;
+			}
+
+			.cta-row {
+				display: flex;
+				gap: 12px;
+				flex-wrap: wrap;
+				align-items: center;
+			}
+
+			.btn {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				gap: 8px;
+				padding: 10px 12px;
+				border-radius: 12px;
+				border: 1px solid var(--border);
+				background: var(--bg);
+				text-decoration: none;
+				font-size: 14px;
+				transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+			}
+			.btn:hover {
+				background: var(--surface);
+			}
+			@media (prefers-reduced-motion: no-preference) {
+				.btn:hover {
+					transform: translateY(-1px);
+				}
+				.btn:active {
+					transform: translateY(0);
+				}
+			}
+			.btn.primary {
+				background: var(--accent);
+				color: var(--bg);
+				border-color: var(--accent);
+			}
+			.btn.primary:hover {
+				filter: brightness(1.04);
+			}
+
+			.card {
+				border: 1px solid var(--border);
+				border-radius: var(--radius);
+				padding: 16px;
+				background: var(--surface);
+				position: relative;
+				overflow: hidden;
+			}
+
+			.card::before {
+				content: "";
+				position: absolute;
+				inset: 0;
+				border-radius: inherit;
+				background: radial-gradient(
+					240px 180px at var(--px, 50%) var(--py, 20%),
+					rgba(255, 77, 0, 0.28),
+					transparent 55%
+				);
+				opacity: 0;
+				transition: opacity 180ms ease;
+				pointer-events: none;
+			}
+			.card:hover::before {
+				opacity: 1;
+			}
+
+
+			.card h2 {
+				margin: 0 0 8px;
+				font-size: 14px;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+			}
+
+			.list {
+				margin: 0;
+				padding-left: 16px;
+				color: var(--muted);
+			}
+
+			section {
+				padding: 28px 0;
+			}
+
+			.section-title {
+				display: flex;
+				align-items: baseline;
+				justify-content: space-between;
+				gap: 12px;
+				margin-bottom: 12px;
+			}
+
+			.section-title h2 {
+				margin: 0;
+				font-size: 18px;
+				letter-spacing: 0.04em;
+				text-transform: uppercase;
+			}
+
+			.section-title p {
+				margin: 0;
+				color: var(--muted);
+				font-size: 14px;
+			}
+
+			.portfolio-layout {
+				display: grid;
+				grid-template-columns: 1fr;
+				gap: 18px;
+				align-items: start;
+			}
+
+			.portfolio-right-bleed {
+				--content: min(calc(100vw - 32px), var(--max));
+				width: 100vw;
+				margin-left: calc(50% - 50vw);
+				background: transparent;
+				backdrop-filter: blur(14px) saturate(1.25);
+				-webkit-backdrop-filter: blur(14px) saturate(1.25);
+				border-top: 0;
+				border-bottom: 0;
+				display: grid;
+				grid-template-columns: minmax(360px, 760px) 1fr;
+				grid-template-areas: "left pdf";
+				gap: 18px;
+				align-items: start;
+			}
+
+			.portfolio-left {
+				grid-area: left;
+				padding-top: 48px;
+				padding-left: 0;
+				margin-left: 0;
+				list-style: none;
+				display: flex;
+				flex-direction: column;
+				align-items: flex-end;
+				padding-right: clamp(15px, 4vw, 72px);
+			}
+
+			.pdf-col {
+				grid-area: pdf;
+				padding-left: calc((100vw - var(--content)) / 2);
+				padding-right: clamp(24px, 8vw, 180px);
+				min-width: 0;
+			}
+
+			.portfolio-title {
+				margin: 0;
+				margin-left: 0;
+				padding-left: 0;
+				width: min(100%, 380px);
+				font-family: var(--font-display);
+				font-weight: 800;
+				font-size: clamp(18px, 3.2vw, 40px);
+				letter-spacing: -0.02em;
+				line-height: 0.55;
+			}
+
+			/* Animation lettre-par-lettre (spans injectés via JS) */
+			.portfolio-title.is-split .title-line {
+				display: block;
+				white-space: nowrap;
+			}
+
+			.portfolio-title.is-split .char {
+				display: inline-block;
+				opacity: 0;
+				filter: blur(6px);
+				will-change: transform, opacity, filter;
+			}
+			.portfolio-title.is-split .char-inner {
+				display: inline-block;
+				will-change: transform;
+			}
+
+			@keyframes char-in {
+				0% {
+					opacity: 0;
+					transform: translateY(18px) rotate(-3deg) scale(0.98);
+					filter: blur(8px);
+				}
+				60% {
+					opacity: 1;
+					transform: translateY(-2px) rotate(0deg) scale(1);
+					filter: blur(0);
+				}
+				100% {
+					opacity: 1;
+					transform: translateY(0) rotate(0deg) scale(1);
+					filter: blur(0);
+				}
+			}
+
+			@keyframes char-wave {
+				0% {
+					transform: translateY(0);
+				}
+				50% {
+					transform: translateY(-3px);
+				}
+				100% {
+					transform: translateY(0);
+				}
+			}
+
+			@media (prefers-reduced-motion: no-preference) {
+				.portfolio-title.is-split .char {
+					animation: char-in 780ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+					animation-delay: calc(var(--i) * 28ms);
+				}
+				.portfolio-title.is-split .char-inner {
+					animation: char-wave 4200ms ease-in-out infinite;
+					animation-delay: calc(1100ms + var(--i) * 55ms);
+				}
+			}
+
+			@media (prefers-reduced-motion: reduce) {
+				.portfolio-title.is-split .char {
+					opacity: 1;
+					filter: none;
+				}
+				.portfolio-title.is-split .char-inner {
+					animation: none;
+				}
+			}
+
+			.portfolio-list {
+				margin: 14px 0 0;
+				padding-left: 0;
+				width: min(100%, 380px);
+				list-style: none;
+				color: var(--muted);
+				font-size: 19px;
+				line-height: 1.78;
+			}
+
+			.portfolio-list li {
+				margin: 8px 0;
+			}
+
+			.portfolio-item {
+				display: flex;
+				align-items: baseline;
+				gap: 10px;
+				min-width: 0;
+				transition: transform 170ms ease;
+			}
+
+			.portfolio-item::before {
+				content: attr(data-dashes);
+				flex: 0 0 auto;
+				color: var(--accent);
+				letter-spacing: 0;
+				transform: translateY(-1px);
+				transition: transform 180ms ease, letter-spacing 180ms ease, opacity 180ms ease;
+			}
+			@media (prefers-reduced-motion: no-preference) {
+				.portfolio-list li:hover .portfolio-item {
+					transform: translateX(2px);
+				}
+				.portfolio-list li:hover .portfolio-item::before {
+					transform: translateY(-1px) translateX(2px);
+					letter-spacing: 0.02em;
+					opacity: 0.95;
+				}
+			}
+
+			.project-text {
+				display: block;
+				min-width: 0;
+				white-space: nowrap;
+				overflow: visible;
+			}
+
+			.project-name {
+				font-weight: 700;
+				font-size: 22px;
+				color: var(--fg);
+			}
+
+			.project-type {
+				font-weight: 400;
+				font-size: 16px;
+				color: var(--muted);
+			}
+
+			.portfolio-jump {
+				text-decoration: none;
+				color: inherit;
+				display: inline-block;
+				min-width: 0;
+			}
+			.portfolio-jump:hover {
+				text-decoration: underline;
+				text-decoration-color: var(--accent);
+			}
+			.portfolio-jump:focus {
+				outline: 2px solid var(--accent);
+				outline-offset: 2px;
+				border-radius: 6px;
+			}
+
+			.pdf-shell {
+				width: 100%;
+				max-width: 1280px;
+				padding-left: 0;
+				margin-right: 0;
+				border: 0;
+				border-radius: 0;
+				overflow: visible;
+				background: transparent;
+				min-width: 0;
+			}
+
+			@media (max-width: 900px) {
+				.portfolio-right-bleed {
+					width: auto;
+					margin-left: 0;
+					display: block;
+				}
+
+				.portfolio-left {
+					padding-left: 0;
+					padding-right: 0;
+				}
+
+				.pdf-col {
+					padding-left: 0;
+					padding-right: 0;
+				}
+
+				.portfolio-list {
+					padding-left: 0;
+				}
+
+				.pdf-shell {
+					max-width: none;
+					margin-left: 0;
+					margin-right: 0;
+				}
+			}
+
+			.pdfjs-viewer {
+				min-width: 0;
+				background: transparent;
+			}
+
+			.pdf-page-wrap {
+				background: transparent;
+				margin: 0 0 18px;
+			}
+
+			/* Pages 3 + 4 côte à côte (sans décaler la grid) */
+			.pdf-spread {
+				display: flex;
+				gap: 18px;
+				align-items: flex-start;
+				margin: 0 0 18px;
+				will-change: transform;
+			}
+			.pdf-spread .pdf-page-wrap {
+				margin: 0;
+				flex: 0 0 auto;
+			}
+			@media (max-width: 900px) {
+				.pdf-spread {
+					flex-direction: column;
+				}
+				.pdf-spread .pdf-page-wrap {
+					margin: 0 0 18px;
+				}
+			}
+
+			@keyframes page-in {
+				from {
+					opacity: 0;
+					transform: translateY(10px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+			@media (prefers-reduced-motion: no-preference) {
+				.pdf-page-wrap {
+					opacity: 0;
+					transform: translateY(10px);
+				}
+				.pdf-page-wrap.is-rendered {
+					animation: page-in 420ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+				}
+			}
+
+			.pdf-page {
+				display: block;
+				background: transparent;
+				width: 100%;
+				height: auto;
+			}
+
+			.pdf-fallback {
+				padding: 14px;
+				font-size: 14px;
+				color: var(--muted);
+			}
+
+			.grid-2 {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 16px;
+			}
+			@media (max-width: 860px) {
+				.grid-2 {
+					grid-template-columns: 1fr;
+				}
+			}
+
+			form {
+				display: grid;
+				gap: 10px;
+			}
+
+			label {
+				display: grid;
+				gap: 6px;
+				font-size: 14px;
+			}
+
+			input,
+			textarea {
+				width: 100%;
+				padding: 10px 12px;
+				border-radius: 12px;
+				border: 1px solid var(--border);
+				background: var(--bg);
+				color: var(--fg);
+				font: inherit;
+			}
+			textarea {
+				min-height: 140px;
+				resize: vertical;
+			}
+			input:focus,
+			textarea:focus {
+				outline: 2px solid var(--focus);
+				outline-offset: 2px;
+			}
+
+			footer {
+				border-top: 1px solid var(--border);
+				padding: 18px 0 28px;
+				color: var(--muted);
+				font-size: 13px;
+			}
+
+			/* Toast téléchargement PDF (non bloquant) */
+			.pdf-toast {
+				position: fixed;
+				top: 152px;
+				bottom: auto;
+				right: max(220px, calc((100vw - var(--max)) / 2 + 220px));
+				width: min(420px, calc(100vw - 32px));
+				border-radius: 16px;
+				border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--border));
+				background: var(--surface);
+				box-shadow: 0 20px 60px rgba(15, 23, 42, 0.24);
+				padding: 12px 12px;
+				z-index: 9999;
+				display: none;
+				will-change: left, top;
+			}
+			.pdf-toast.is-open {
+				display: block;
+			}
+			.pdf-toast-top {
+				display: flex;
+				align-items: start;
+				justify-content: space-between;
+				gap: 12px;
+				cursor: grab;
+				user-select: none;
+				touch-action: none;
+			}
+			.pdf-toast.is-dragging .pdf-toast-top {
+				cursor: grabbing;
+			}
+			.pdf-toast-title {
+				margin: 0;
+				font-size: 13px;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+				color: var(--accent);
+			}
+			.pdf-toast-text {
+				margin: 6px 0 0;
+				color: var(--fg);
+				font-size: 14px;
+				line-height: 1.5;
+			}
+			.pdf-toast-actions {
+				display: flex;
+				gap: 10px;
+				flex-wrap: wrap;
+				align-items: center;
+				justify-content: flex-end;
+				margin-top: 10px;
+			}
+			.pdf-toast-close {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 34px;
+				height: 34px;
+				border-radius: 12px;
+				border: 1px solid var(--border);
+				background: rgba(255, 255, 255, 0.92);
+				cursor: pointer;
+			}
+			.pdf-toast-close:hover {
+				background: var(--surface);
+			}
+			.pdf-toast-close:focus {
+				outline: 2px solid var(--accent);
+				outline-offset: 2px;
+			}
+			@media (max-width: 560px) {
+				.pdf-toast {
+					right: 16px;
+					left: 16px;
+					width: auto;
+				}
+			}
+
+			/* Mini-popups de relance (non bloquants) */
+			.nag-toast {
+				position: fixed;
+				max-width: min(340px, calc(100vw - 32px));
+				border-radius: 16px;
+				border: 1px solid color-mix(in srgb, var(--accent) 20%, var(--border));
+				background: color-mix(in srgb, var(--surface) 94%, #ffffff);
+				box-shadow: 0 18px 50px rgba(15, 23, 42, 0.18);
+				padding: 12px 12px;
+				z-index: 9998;
+				opacity: 0;
+				transform: translateY(8px);
+				transition: opacity 160ms ease, transform 160ms ease;
+			}
+			.nag-toast.is-open {
+				opacity: 1;
+				transform: translateY(0);
+			}
+			.nag-toast.is-dragging {
+				transition: none;
+			}
+			.nag-top {
+				display: flex;
+				align-items: start;
+				justify-content: space-between;
+				gap: 12px;
+				cursor: grab;
+				user-select: none;
+				-webkit-user-select: none;
+				touch-action: none;
+			}
+			.nag-toast.is-dragging .nag-top {
+				cursor: grabbing;
+			}
+			.nag-title {
+				margin: 0;
+				font-size: 12px;
+				letter-spacing: 0.06em;
+				text-transform: uppercase;
+				color: var(--accent);
+			}
+			.nag-text {
+				margin: 6px 0 0;
+				color: var(--fg);
+				font-size: 14px;
+				line-height: 1.45;
+			}
+			.nag-close {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 34px;
+				height: 34px;
+				border-radius: 12px;
+				border: 1px solid var(--border);
+				background: rgba(255, 255, 255, 0.92);
+				cursor: pointer;
+			}
+			.nag-close:hover {
+				background: var(--surface);
+			}
+
+			/* Curseur custom (rond orange) — desktop uniquement */
+			@media (hover: hover) and (pointer: fine) {
+				body {
+					cursor: none;
+				}
+				.cursor-dot {
+					position: fixed;
+					left: 0;
+					top: 0;
+					width: 10px;
+					height: 10px;
+					border-radius: 999px;
+					background: var(--accent);
+					transform: translate(-50%, -50%);
+					pointer-events: none;
+					z-index: 10000;
+					opacity: 0;
+					box-shadow: 0 10px 24px rgba(255, 77, 0, 0.22);
+					transition: opacity 120ms ease, transform 120ms ease;
+				}
+				body.is-cursor-ready .cursor-dot {
+					opacity: 1;
+				}
+				body.is-clicking .cursor-dot {
+					transform: translate(-50%, -50%) scale(3);
+				}
+				body.cursor-over-text .cursor-dot {
+					opacity: 0;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<a class="skip-link" href="#contenu">Aller au contenu</a>
+
+		<header>
+			<div class="container nav">
+				<a class="brand" href="#accueil" aria-label="Retour à l'accueil">
+					<strong>Capello Margot</strong>
+					<span>Alias Magagoto</span>
+				</a>
+
+				<nav aria-label="Navigation principale">
+					<ul>
+						<li><a href="#portfolio">Portfolio</a></li>
+						<li><a href="#apropos">À propos</a></li>
+						<li><a href="contact.html">Contact</a></li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+
+		<main id="contenu" class="container">
+			<section id="accueil" class="hero" aria-label="Accueil"></section>
+
+			<section id="portfolio" aria-label="Portfolio">
+				<div class="portfolio-layout">
+					<div class="portfolio-right-bleed">
+						<div class="portfolio-left">
+							<h1 class="portfolio-title">DESIGNER&nbsp;GRAPHIQUE<br />FREE LANCE<br />ARTISTE</h1>
+							<ul class="portfolio-list">
+								<li>
+									<div class="portfolio-item" data-dashes="-">
+										<a class="portfolio-jump" href="#pdf-page-2" data-page="2">
+											<span class="project-text"><span class="project-name">Curriculum vitae</span></span>
+										</a>
+									</div>
+								</li>
+								<li>
+									<div class="portfolio-item" data-dashes="---">
+										<a class="portfolio-jump" href="#pdf-page-3" data-page="3">
+											<span class="project-text"><span class="project-name">Mémoire</span> <span class="project-type">— travail d’édition</span></span>
+										</a>
+									</div>
+								</li>
+								<li>
+									<div class="portfolio-item" data-dashes="----">
+										<a class="portfolio-jump" href="#pdf-page-8" data-page="8">
+											<span class="project-text"><span class="project-name">Le passage</span> <span class="project-type">— Commande — Conception Graphique</span></span>
+										</a>
+									</div>
+								</li>
+								<li><div class="portfolio-item" data-dashes="------"><span class="project-text"><span class="project-name">Do Dream</span> <span class="project-type">— identité visuelle</span></span></div></li>
+								<li><div class="portfolio-item" data-dashes="--------"><span class="project-text"><span class="project-name">Capsule</span> <span class="project-type">— Extrait graphisme</span></span></div></li>
+								<li><div class="portfolio-item" data-dashes="-----------"><span class="project-text"><span class="project-name">Au fil du son</span> <span class="project-type">— identité visuelle</span></span></div></li>
+								<li><div class="portfolio-item" data-dashes="---------------"><span class="project-text"><span class="project-name">Soirée Halloween</span> <span class="project-type">— Affiche</span></span></div></li>
+								<li><div class="portfolio-item" data-dashes="----------------------"><span class="project-text"><span class="project-name">Vivre avec les robots</span> <span class="project-type">— Affiche</span></span></div></li>
+								<li><div class="portfolio-item" data-dashes="---------------------------"><span class="project-text"><span class="project-name">Hors service</span> <span class="project-type">— Affiche</span></span></div></li>
+								<li><div class="portfolio-item" data-dashes="---------------------------"><span class="project-text"><span class="project-name">Pop up Chess.com</span> <span class="project-type">— Affiche</span></span></div></li>
+								<li><div class="portfolio-item" data-dashes="----------------------"><span class="project-text"><span class="project-name">Mondes multiples</span> <span class="project-type">— Affiche</span></span></div></li>
+								<li><div class="portfolio-item" data-dashes="----------------"><span class="project-text"><span class="project-name">Errancia</span> <span class="project-type">— Expérience en réalité virtuelle</span></span></div></li>
+								<li><div class="portfolio-item" data-dashes="--------------"><span class="project-text"><span class="project-name">La nuit tombe</span> <span class="project-type">— Production photographique</span></span></div></li>
+								<li><div class="portfolio-item" data-dashes="----------"><span class="project-text"><span class="project-name">Chroméa</span> <span class="project-type">— Jeu mobile — dispositif situé</span></span></div></li>
+								<li><div class="portfolio-item" data-dashes="----------------"><span class="project-text"><span class="project-name">Cocobot</span> <span class="project-type">— Jeu vidéo</span></span></div></li>
+								<li><div class="portfolio-item" data-dashes="------------------------"><span class="project-text"><span class="project-name">Npc or not to be</span> <span class="project-type">— Workshop — Manifeste</span></span></div></li>
+								<li><div class="portfolio-item" data-dashes="----------------------------"><span class="project-text"><span class="project-name">CartoPlano</span> <span class="project-type">— Production photographique</span></span></div></li>
+								<li><div class="portfolio-item" data-dashes="------------------------------------"><span class="project-text"><span class="project-name">Traverse</span> <span class="project-type">— Jeu de plateau</span></span></div></li>
+								<li><div class="portfolio-item" data-dashes="-----------------------------"><span class="project-text"><span class="project-name">Illustrations</span> <span class="project-type">— illustrations</span></span></div></li>
+							</ul>
+						</div>
+						<div class="pdf-col">
+							<div class="pdf-shell">
+								<div id="pdfjs-status" class="pdf-fallback" style="display: none;"></div>
+								<div id="pdfjs-viewer" class="pdfjs-viewer" aria-label="Portfolio PDF"></div>
+								<noscript>
+									<div class="pdf-fallback">
+										Active JavaScript pour afficher le portfolio.
+										<a href="Portfolio.pdf" target="_blank" rel="noreferrer">Ouvrir le PDF</a>
+										ou <a href="Portfolio.pdf" download>Télécharger</a>.
+									</div>
+								</noscript>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section id="apropos" aria-label="À propos">
+				<div class="section-title">
+					<h2>À propos</h2>
+					<p>Quelques mots, sans blabla</p>
+				</div>
+
+				<div class="grid-2">
+					<div class="card">
+						<h2>Ce que je fais</h2>
+						<ul class="list">
+							<li>Identité visuelle & logo</li>
+							<li>Affiches, éditions, mise en page</li>
+							<li>Visuels réseaux sociaux & assets web</li>
+						</ul>
+					</div>
+					<div class="card">
+						<h2>Comment je travaille</h2>
+						<ul class="list">
+							<li>Brief rapide → propositions → itérations</li>
+							<li>Fichiers prêts print / web</li>
+							<li>Délais clairs et communication simple</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+
+	
+		</main>
+
+		<footer>
+			<div class="container">
+				<div>
+					© <span id="year"></span> Capello Margot — Alias Magagoto.
+				</div>
+			</div>
+		</footer>
+
+		<div class="pdf-toast" data-pdf-toast role="status" aria-live="polite">
+			<div class="pdf-toast-top">
+				<div>
+					<p class="pdf-toast-title">Portfolio PDF</p>
+					<p class="pdf-toast-text">Voulez-vous télécharger le PDF ?</p>
+				</div>
+				<button class="pdf-toast-close" type="button" data-pdf-toast-close aria-label="Fermer">✕</button>
+			</div>
+			<div class="pdf-toast-actions">
+				<a class="btn" href="Portfolio.pdf" target="_blank" rel="noreferrer">Ouvrir</a>
+				<a class="btn primary" href="Portfolio.pdf" download data-pdf-toast-download>Télécharger</a>
+				<button class="btn" type="button" data-pdf-toast-later>Plus tard</button>
+			</div>
+		</div>
+
+		<div class="cursor-dot" data-cursor-dot aria-hidden="true"></div>
+
+		<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+		<script>
+			document.getElementById("year").textContent = String(new Date().getFullYear());
+
+			(function initCustomCursor() {
+				try {
+					if (!(window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches)) return;
+				} catch (_e) {
+					return;
+				}
+
+				var dot = document.querySelector("[data-cursor-dot]");
+				if (!dot) return;
+
+				var rafId = 0;
+				var x = 0;
+				var y = 0;
+				var update = function () {
+					rafId = 0;
+					dot.style.left = x + "px";
+					dot.style.top = y + "px";
+				};
+
+				window.addEventListener(
+					"pointermove",
+					function (e) {
+						x = e.clientX;
+						y = e.clientY;
+						if (!rafId) rafId = window.requestAnimationFrame(update);
+						if (!document.body.classList.contains("is-cursor-ready")) {
+							document.body.classList.add("is-cursor-ready");
+						}
+					},
+					{ passive: true }
+				);
+
+				window.addEventListener(
+					"pointerdown",
+					function () {
+						document.body.classList.add("is-clicking");
+					},
+					{ passive: true }
+				);
+				window.addEventListener(
+					"pointerup",
+					function () {
+						document.body.classList.remove("is-clicking");
+					},
+					{ passive: true }
+				);
+
+				window.addEventListener(
+					"pointerleave",
+					function () {
+						document.body.classList.remove("is-cursor-ready");
+					},
+					{ passive: true }
+				);
+
+				var isTextTarget = function (t) {
+					return !!(
+						t &&
+						t.closest &&
+						t.closest("input, textarea, select, [contenteditable='true']")
+					);
+				};
+				window.addEventListener(
+					"pointerover",
+					function (e) {
+						if (isTextTarget(e.target)) document.body.classList.add("cursor-over-text");
+						else document.body.classList.remove("cursor-over-text");
+					},
+					{ passive: true }
+				);
+			})();
+
+			(() => {
+				const toast = document.querySelector("[data-pdf-toast]");
+				if (!toast) return;
+				const handle = toast.querySelector(".pdf-toast-top") || toast;
+
+				let audioCtx = window.__cmAudioCtx || null;
+				let pendingSound = false;
+				const getAudioCtx = () => {
+					if (audioCtx) return audioCtx;
+					const AC = window.AudioContext || window.webkitAudioContext;
+					if (!AC) return null;
+					try {
+						audioCtx = new AC();
+						window.__cmAudioCtx = audioCtx;
+						return audioCtx;
+					} catch {
+						return null;
+					}
+				};
+				const unlockAudio = async () => {
+					const ctx = getAudioCtx();
+					if (!ctx) return false;
+					if (ctx.state === "suspended") {
+						try {
+							await ctx.resume();
+						} catch {
+							return false;
+						}
+					}
+					return ctx.state === "running";
+				};
+				const playPopSound = async () => {
+					const ctx = getAudioCtx();
+					if (!ctx) return;
+					const ok = await unlockAudio();
+					if (!ok) {
+						pendingSound = true;
+						return;
+					}
+
+					try {
+						const now = ctx.currentTime;
+						const osc = ctx.createOscillator();
+						const gain = ctx.createGain();
+
+						osc.type = "sine";
+						osc.frequency.setValueAtTime(640, now);
+						osc.frequency.exponentialRampToValueAtTime(360, now + 0.08);
+
+						gain.gain.setValueAtTime(0.0001, now);
+						gain.gain.exponentialRampToValueAtTime(0.12, now + 0.01);
+						gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+
+						osc.connect(gain);
+						gain.connect(ctx.destination);
+						osc.start(now);
+						osc.stop(now + 0.13);
+
+						pendingSound = false;
+					} catch {
+						// ignore
+					}
+				};
+
+				// Certains navigateurs bloquent l’audio sans interaction : on “déverrouille” au 1er geste.
+				const unlockOnce = async () => {
+					document.removeEventListener("pointerdown", unlockOnce);
+					document.removeEventListener("keydown", unlockOnce);
+					await unlockAudio();
+					if (pendingSound && toast.classList.contains("is-open")) playPopSound();
+				};
+				document.addEventListener("pointerdown", unlockOnce, { passive: true });
+				document.addEventListener("keydown", unlockOnce);
+
+				const open = () => {
+					toast.classList.add("is-open");
+					playPopSound();
+				};
+				const close = () => toast.classList.remove("is-open");
+
+				const spawnNagPopups = () => {
+					const messages = [
+						"Ah… vous êtes sûrs ?",
+						"Vous ratez une opportunité, là 👀",
+						"Dernière chance : le PDF est juste ici.",
+					];
+					const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+					const safeTop = 90;
+					const safeBottom = 24;
+					const safeSide = 18;
+					const spots = [
+						{ x: 0.10, y: 0.22 },
+						{ x: 0.62, y: 0.42 },
+						{ x: 0.26, y: 0.70 },
+					];
+
+					const makeNagDraggable = (el) => {
+						const handle = el.querySelector(".nag-top") || el;
+						let dragging = false;
+						let offsetX = 0;
+						let offsetY = 0;
+						let pointerId = null;
+
+						const start = (e) => {
+							// Ne pas démarrer un drag depuis le bouton de fermeture
+							if (e.target && e.target.closest && e.target.closest("button,a")) return;
+
+							const rect = el.getBoundingClientRect();
+							offsetX = e.clientX - rect.left;
+							offsetY = e.clientY - rect.top;
+							dragging = true;
+							pointerId = e.pointerId;
+							el.classList.add("is-dragging");
+
+							el.style.left = rect.left + "px";
+							el.style.top = rect.top + "px";
+
+							try {
+								handle.setPointerCapture(pointerId);
+							} catch {
+								// ignore
+							}
+							e.preventDefault();
+						};
+
+						const move = (e) => {
+							if (!dragging) return;
+							const rect = el.getBoundingClientRect();
+							const margin = 10;
+							const minLeft = margin;
+							const minTop = safeTop;
+							const maxLeft = window.innerWidth - rect.width - margin;
+							const maxTop = window.innerHeight - rect.height - safeBottom;
+							const nextLeft = clamp(e.clientX - offsetX, minLeft, maxLeft);
+							const nextTop = clamp(e.clientY - offsetY, minTop, maxTop);
+							el.style.left = nextLeft + "px";
+							el.style.top = nextTop + "px";
+						};
+
+						const end = () => {
+							if (!dragging) return;
+							dragging = false;
+							el.classList.remove("is-dragging");
+							try {
+								handle.releasePointerCapture(pointerId);
+							} catch {
+								// ignore
+							}
+							pointerId = null;
+						};
+
+						handle.addEventListener("pointerdown", start);
+						window.addEventListener("pointermove", move, { passive: true });
+						window.addEventListener("pointerup", end, { passive: true });
+						window.addEventListener("pointercancel", end, { passive: true });
+					};
+
+					spots.forEach((s, i) => {
+						const el = document.createElement("div");
+						el.className = "nag-toast";
+						el.setAttribute("role", "status");
+						el.innerHTML =
+							'<div class="nag-top">' +
+								'<div>' +
+									'<p class="nag-title">Oups</p>' +
+									'<p class="nag-text">' +
+										messages[i % messages.length] +
+									'</p>' +
+								'</div>' +
+								'<button class="nag-close" type="button" aria-label="Fermer">✕</button>' +
+							'</div>';
+
+						document.body.appendChild(el);
+						const rect = el.getBoundingClientRect();
+						const maxLeft = Math.max(safeSide, window.innerWidth - rect.width - safeSide);
+						const maxTop = Math.max(safeTop, window.innerHeight - rect.height - safeBottom);
+						const left = Math.min(Math.max(safeSide, Math.round(window.innerWidth * s.x - rect.width * 0.5)), maxLeft);
+						const top = Math.min(Math.max(safeTop, Math.round(window.innerHeight * s.y - rect.height * 0.5)), maxTop);
+						el.style.left = left + "px";
+						el.style.top = top + "px";
+						makeNagDraggable(el);
+
+						requestAnimationFrame(() => el.classList.add("is-open"));
+						const closeNag = () => {
+							el.classList.remove("is-open");
+							window.setTimeout(() => el.remove(), 180);
+						};
+						el.querySelector(".nag-close")?.addEventListener("click", closeNag);
+						window.setTimeout(closeNag, 6500);
+					});
+				};
+
+				const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+				const makeDraggable = () => {
+					let dragging = false;
+					let offsetX = 0;
+					let offsetY = 0;
+					let pointerId = null;
+
+					const start = (e) => {
+						if (!toast.classList.contains("is-open")) return;
+						// Ne pas démarrer un drag depuis les boutons/liens
+						if (e.target && e.target.closest && e.target.closest("button,a")) return;
+
+						const rect = toast.getBoundingClientRect();
+						offsetX = e.clientX - rect.left;
+						offsetY = e.clientY - rect.top;
+						dragging = true;
+						pointerId = e.pointerId;
+						toast.classList.add("is-dragging");
+
+						// Bascule en positionnement libre
+						toast.style.left = rect.left + "px";
+						toast.style.top = rect.top + "px";
+						toast.style.right = "auto";
+						toast.style.bottom = "auto";
+
+						try {
+							handle.setPointerCapture(pointerId);
+						} catch (_) {
+							// ignore
+						}
+						e.preventDefault();
+					};
+
+					const move = (e) => {
+						if (!dragging) return;
+						const rect = toast.getBoundingClientRect();
+						const margin = 10;
+						const maxLeft = Math.max(margin, window.innerWidth - rect.width - margin);
+						const maxTop = Math.max(margin, window.innerHeight - rect.height - margin);
+						const left = clamp(e.clientX - offsetX, margin, maxLeft);
+						const top = clamp(e.clientY - offsetY, margin, maxTop);
+						toast.style.left = left + "px";
+						toast.style.top = top + "px";
+					};
+
+					const end = (e) => {
+						if (!dragging) return;
+						dragging = false;
+						toast.classList.remove("is-dragging");
+						try {
+							handle.releasePointerCapture(pointerId);
+						} catch (_) {
+							// ignore
+						}
+						pointerId = null;
+					};
+
+					handle.addEventListener("pointerdown", start);
+					window.addEventListener("pointermove", move, { passive: true });
+					window.addEventListener("pointerup", end, { passive: true });
+					window.addEventListener("pointercancel", end, { passive: true });
+				};
+
+				toast.addEventListener("click", (e) => {
+					const closeBtn = e.target?.closest?.("[data-pdf-toast-close]");
+					const laterBtn = e.target?.closest?.("[data-pdf-toast-later]");
+					if (closeBtn || laterBtn) {
+						spawnNagPopups();
+						close();
+					}
+				});
+				const dl = toast.querySelector("[data-pdf-toast-download]");
+				dl?.addEventListener("click", close);
+
+				makeDraggable();
+
+				// Réapparait à chaque visite : pas de localStorage.
+				window.setTimeout(open, 2200);
+			})();
+
+			(function initPortfolioHoverNotes() {
+				var items = document.querySelectorAll(".portfolio-list li");
+				if (!items || !items.length) return;
+
+				var lastIndex = -1;
+				var lastAt = 0;
+				var degrees = [0, 2, 4, 5, 7, 9, 11]; // gamme majeure
+
+				var getCtx = () => {
+					var ctx = window.__cmAudioCtx || null;
+					if (ctx) return ctx;
+					var AC = window.AudioContext || window.webkitAudioContext;
+					if (!AC) return null;
+					try {
+						ctx = new AC();
+						window.__cmAudioCtx = ctx;
+						return ctx;
+					} catch (_e) {
+						return null;
+					}
+				};
+
+				var noteFreq = (i) => {
+					var octave = Math.floor(i / degrees.length);
+					var degree = i % degrees.length;
+					var semitone = degrees[degree] + 12 * octave;
+					var c4 = 261.6255653005986;
+					return c4 * Math.pow(2, semitone / 12);
+				};
+
+				var playNote = async (i) => {
+					var nowMs = (typeof performance !== "undefined" && performance.now) ? performance.now() : Date.now();
+					if (i === lastIndex && nowMs - lastAt < 220) return;
+					if (nowMs - lastAt < 70) return;
+					lastIndex = i;
+					lastAt = nowMs;
+
+					var ctx = getCtx();
+					if (!ctx) return;
+					if (ctx.state === "suspended") {
+						try {
+							await ctx.resume();
+						} catch (_e) {
+							return;
+						}
+					}
+					if (ctx.state !== "running") return;
+
+					try {
+						var now = ctx.currentTime;
+						var osc = ctx.createOscillator();
+						var gain = ctx.createGain();
+
+						osc.type = "triangle";
+						osc.frequency.setValueAtTime(noteFreq(i), now);
+
+						gain.gain.setValueAtTime(0.0001, now);
+						gain.gain.exponentialRampToValueAtTime(0.10, now + 0.008);
+						gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.14);
+
+						osc.connect(gain);
+						gain.connect(ctx.destination);
+						osc.start(now);
+						osc.stop(now + 0.15);
+					} catch (_e) {
+						// ignore
+					}
+				};
+
+				Array.prototype.forEach.call(items, function (li, idx) {
+					li.addEventListener("pointerenter", function (e) {
+						if (e && e.pointerType && e.pointerType !== "mouse") return;
+						playNote(idx);
+					});
+					var link = li.querySelector("a");
+					if (link) {
+						link.addEventListener("focus", function () {
+							playNote(idx);
+						});
+					}
+				});
+			})();
+
+			(function animatePortfolioTitle() {
+				var title = document.querySelector(".portfolio-title");
+				if (!title) return;
+				if (title.dataset.split === "true") return;
+
+				var label = (title.textContent || "")
+					.replace(/\s+/g, " ")
+					.trim();
+				if (label) title.setAttribute("aria-label", label);
+
+				var nodes = Array.prototype.slice.call(title.childNodes);
+				title.textContent = "";
+				title.classList.add("is-split");
+				title.dataset.split = "true";
+
+				var i = 0;
+				var line = document.createElement("span");
+				line.className = "title-line";
+				title.appendChild(line);
+
+				nodes.forEach(function (node) {
+					if (node.nodeType === Node.ELEMENT_NODE && node.nodeName === "BR") {
+						title.appendChild(document.createElement("br"));
+						line = document.createElement("span");
+						line.className = "title-line";
+						title.appendChild(line);
+						return;
+					}
+
+					var text = "";
+					if (node.nodeType === Node.TEXT_NODE) text = node.textContent || "";
+					else if (node.nodeType === Node.ELEMENT_NODE) text = node.textContent || "";
+					if (!text) return;
+
+					Array.from(text).forEach(function (ch) {
+						if (ch === "\n") return;
+						var outer = document.createElement("span");
+						outer.className = "char";
+						outer.style.setProperty("--i", String(i++));
+						outer.setAttribute("aria-hidden", "true");
+
+						var inner = document.createElement("span");
+						inner.className = "char-inner";
+						inner.textContent = ch === " " ? "\u00A0" : ch;
+
+						outer.appendChild(inner);
+						line.appendChild(outer);
+					});
+				});
+			})();
+
+			(function initPdfJs() {
+				var viewer = document.getElementById("pdfjs-viewer");
+				var statusEl = document.getElementById("pdfjs-status");
+				if (!viewer || !statusEl) return;
+
+				var pdfUrl = "Portfolio.pdf";
+				var workerUrl =
+					"https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+				var pdfDoc = null;
+				var renderToken = 0;
+				var resizeTimer = null;
+
+				function setStatusHtml(html) {
+					statusEl.innerHTML = html;
+					statusEl.style.display = "block";
+				}
+
+				function hideStatus() {
+					statusEl.style.display = "none";
+				}
+
+				function ensurePdfJs() {
+					return typeof window.pdfjsLib !== "undefined";
+				}
+
+				async function renderAllPages() {
+					if (!pdfDoc) return;
+					var token = ++renderToken;
+					viewer.innerHTML = "";
+					hideStatus();
+
+					var containerWidth = viewer.clientWidth;
+					if (!containerWidth || containerWidth < 50) {
+						containerWidth = Math.min(window.innerWidth - 32, 1240);
+					}
+
+					var dpr = window.devicePixelRatio || 1;
+					var spread = null;
+					function alignSpread(spreadEl) {
+						if (!spreadEl) return;
+						if (window.matchMedia && window.matchMedia("(max-width: 900px)").matches) {
+							spreadEl.style.transform = "";
+							return;
+						}
+						var page2 = document.getElementById("pdf-page-2");
+						var page4 = document.getElementById("pdf-page-4");
+						if (!page4) return;
+						// Reset pour mesurer sans biais (si déjà aligné une fois)
+						spreadEl.style.transform = "";
+						var targetLeft = (page2 && page2.getBoundingClientRect().left) || viewer.getBoundingClientRect().left;
+						var page4Left = page4.getBoundingClientRect().left;
+						var delta = targetLeft - page4Left;
+						spreadEl.style.transform = "translateX(" + String(Math.round(delta)) + "px)";
+					}
+					for (var pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+						if (token !== renderToken) return;
+						// eslint-disable-next-line no-await-in-loop
+						var page = await pdfDoc.getPage(pageNum);
+						var baseViewport = page.getViewport({ scale: 1 });
+						var targetWidth = containerWidth;
+						var cssScale = targetWidth / baseViewport.width;
+						var viewport = page.getViewport({ scale: cssScale * dpr });
+
+						var canvas = document.createElement("canvas");
+						canvas.className = "pdf-page";
+						canvas.width = Math.floor(viewport.width);
+						canvas.height = Math.floor(viewport.height);
+						canvas.style.width = Math.floor(viewport.width / dpr) + "px";
+						canvas.style.height = Math.floor(viewport.height / dpr) + "px";
+
+						var wrap = document.createElement("div");
+						wrap.className = "pdf-page-wrap";
+						wrap.id = "pdf-page-" + String(pageNum);
+						wrap.dataset.page = String(pageNum);
+						wrap.appendChild(canvas);
+
+						if (pageNum === 3) {
+							spread = document.createElement("div");
+							spread.className = "pdf-spread";
+							spread.dataset.spread = "3-4";
+							spread.appendChild(wrap);
+						} else if (pageNum === 4 && spread) {
+							var spreadEl = spread;
+							spreadEl.appendChild(wrap);
+							viewer.appendChild(spreadEl);
+							spread = null;
+							// Aligne la page 4 comme la page 2 (sans impacter la mise en page)
+							window.requestAnimationFrame(function () {
+								alignSpread(spreadEl);
+								window.requestAnimationFrame(function () {
+									alignSpread(spreadEl);
+								});
+							});
+						} else {
+							viewer.appendChild(wrap);
+						}
+
+						var ctx = canvas.getContext("2d", { alpha: false });
+						// eslint-disable-next-line no-await-in-loop
+						await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+						wrap.classList.add("is-rendered");
+					}
+
+					// Sécurité : si le PDF a moins de pages et qu'un spread est resté ouvert
+					if (spread) viewer.appendChild(spread);
+
+					hideStatus();
+				}
+
+				function waitForPageElement(pageNumber, timeoutMs) {
+					var start = performance.now();
+					return new Promise(function (resolve) {
+						(function check() {
+							var el = document.getElementById("pdf-page-" + String(pageNumber));
+							if (el) return resolve(el);
+							if (performance.now() - start >= timeoutMs) return resolve(null);
+							window.requestAnimationFrame(check);
+						})();
+					});
+				}
+
+				async function scrollToPdfPage(pageNumber) {
+					var target = await waitForPageElement(pageNumber, 2500);
+					if (!target) {
+						console.warn("Page PDF introuvable:", pageNumber);
+						return;
+					}
+					target.scrollIntoView({ behavior: "smooth", block: "start" });
+				}
+
+				async function loadPdf() {
+					try {
+						if (!ensurePdfJs()) {
+							setStatusHtml(
+								"Impossible de charger la visionneuse. <a href=\"Portfolio.pdf\" target=\"_blank\" rel=\"noreferrer\">Ouvrir le PDF</a>."
+							);
+							return;
+						}
+
+						window.pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
+						hideStatus();
+						var loadingTask = window.pdfjsLib.getDocument({ url: pdfUrl });
+						pdfDoc = await loadingTask.promise;
+						await renderAllPages();
+					} catch (err) {
+						console.error(err);
+						setStatusHtml(
+							"Erreur de chargement. <a href=\"Portfolio.pdf\" target=\"_blank\" rel=\"noreferrer\">Ouvrir le PDF</a>."
+						);
+					}
+				}
+
+				window.addEventListener("resize", function () {
+					if (!pdfDoc) return;
+					window.clearTimeout(resizeTimer);
+					resizeTimer = window.setTimeout(function () {
+						renderAllPages();
+					}, 200);
+				});
+
+				hideStatus();
+				loadPdf();
+
+				document.addEventListener("click", function (e) {
+					var link = e.target && e.target.closest ? e.target.closest(".portfolio-jump") : null;
+					if (!link) return;
+					e.preventDefault();
+					var page = Number(link.getAttribute("data-page"));
+					if (!Number.isFinite(page) || page <= 0) return;
+					scrollToPdfPage(page);
+				});
+			})();
+
+			(function initMouseEffects() {
+				var prefersReducedMotion = false;
+				try {
+					prefersReducedMotion =
+						!!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+				} catch (_) {
+					prefersReducedMotion = false;
+				}
+				if (prefersReducedMotion) return;
+
+				Array.prototype.forEach.call(document.querySelectorAll(".card"), function (card) {
+					card.addEventListener(
+						"pointermove",
+						function (e) {
+							var rect = card.getBoundingClientRect();
+							var px = ((e.clientX - rect.left) / rect.width) * 100;
+							var py = ((e.clientY - rect.top) / rect.height) * 100;
+							card.style.setProperty("--px", String(px.toFixed(2)) + "%");
+							card.style.setProperty("--py", String(py.toFixed(2)) + "%");
+						},
+						{ passive: true }
+					);
+					card.addEventListener("pointerleave", function () {
+						card.style.removeProperty("--px");
+						card.style.removeProperty("--py");
+					});
+				});
+			})();
+		</script>
+	</body>
+</html>
