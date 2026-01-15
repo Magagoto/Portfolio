@@ -356,7 +356,7 @@
 				border-top: 0;
 				border-bottom: 0;
 				display: grid;
-				grid-template-columns: minmax(360px, 760px) 1fr;
+				grid-template-columns: minmax(340px, 680px) 1fr;
 				grid-template-areas: "left pdf";
 				gap: 18px;
 				align-items: start;
@@ -376,8 +376,8 @@
 
 			.pdf-col {
 				grid-area: pdf;
-				padding-left: calc((100vw - var(--content)) / 2);
-				padding-right: clamp(24px, 8vw, 180px);
+				padding-left: max(0px, calc((100vw - var(--content)) / 2 - 40px));
+				padding-right: clamp(16px, 4vw, 96px);
 				min-width: 0;
 			}
 
@@ -539,7 +539,7 @@
 
 			.pdf-shell {
 				width: 100%;
-				max-width: 1280px;
+				max-width: 1440px;
 				padding-left: 0;
 				margin-right: 0;
 				border: 0;
