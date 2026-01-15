@@ -54,24 +54,9 @@
 				isolation: isolate;
 			}
 
-			/* Fond image flouté (contenu net) */
+			/* Fond désactivé */
 			body::before {
-				content: "";
-				position: fixed;
-				inset: -30px;
-				z-index: -1;
-				pointer-events: none;
-				background-image:
-					url("Image%20couverture%20.jpg"),
-					url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260' viewBox='0 0 260 260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
-				background-repeat: no-repeat, repeat;
-				background-size: cover, 260px 260px;
-				background-position: center, 0 0;
-				background-blend-mode: normal, multiply;
-				filter: blur(4px) saturate(0.98) brightness(1.02);
-				opacity: 0.10;
-				transform: translateZ(0);
-				will-change: filter, opacity;
+				content: none;
 			}
 
 
@@ -596,17 +581,25 @@
 				min-width: 0;
 				background: transparent;
 			}
+			/* Aide au recalage: mesures stables (sans animation/transform) */
+			.pdfjs-viewer.is-measuring .pdf-page-wrap {
+				animation: none !important;
+				transform: none !important;
+				opacity: 1 !important;
+			}
 
 			.pdf-page-wrap {
 				background: transparent;
 				margin: 0 0 18px;
 			}
 
-			/* Pages 3 + 4 côte à côte (sans décaler la grid) */
+			/* Pages 3+ : layout déterministe en grid (placement exact) */
 			.pdf-spread {
-				display: flex;
-				gap: 18px;
-				align-items: flex-start;
+				display: grid;
+				grid-template-columns: max-content max-content;
+				column-gap: 18px;
+				row-gap: 18px;
+				align-items: start;
 				margin: 0 0 18px;
 				will-change: transform;
 			}
@@ -616,7 +609,7 @@
 			}
 			@media (max-width: 900px) {
 				.pdf-spread {
-					flex-direction: column;
+					display: block;
 				}
 				.pdf-spread .pdf-page-wrap {
 					margin: 0 0 18px;
@@ -850,6 +843,24 @@
 				body {
 					cursor: none;
 				}
+				/* Garder un curseur natif sur les éléments interactifs */
+				a,
+				button,
+				input,
+				textarea,
+				select,
+				label {
+					cursor: auto;
+				}
+				a,
+				button {
+					cursor: pointer;
+				}
+				input,
+				textarea,
+				select {
+					cursor: text;
+				}
 				.cursor-dot {
 					position: fixed;
 					left: 0;
@@ -858,18 +869,20 @@
 					height: 10px;
 					border-radius: 999px;
 					background: var(--accent);
-					transform: translate(-50%, -50%);
+					--cx: -100;
+					--cy: -100;
+					transform: translate3d(calc(var(--cx) * 1px), calc(var(--cy) * 1px), 0) translate(-50%, -50%);
 					pointer-events: none;
 					z-index: 10000;
 					opacity: 0;
 					box-shadow: 0 10px 24px rgba(255, 77, 0, 0.22);
-					transition: opacity 120ms ease, transform 120ms ease;
+					transition: opacity 120ms ease;
 				}
 				body.is-cursor-ready .cursor-dot {
 					opacity: 1;
 				}
 				body.is-clicking .cursor-dot {
-					transform: translate(-50%, -50%) scale(3);
+					transform: translate3d(calc(var(--cx) * 1px), calc(var(--cy) * 1px), 0) translate(-50%, -50%) scale(3);
 				}
 				body.cursor-over-text .cursor-dot {
 					opacity: 0;
@@ -1009,8 +1022,8 @@
 				var y = 0;
 				var update = function () {
 					rafId = 0;
-					dot.style.left = x + "px";
-					dot.style.top = y + "px";
+					dot.style.setProperty("--cx", String(x));
+					dot.style.setProperty("--cy", String(y));
 				};
 
 				window.addEventListener(
@@ -1048,12 +1061,27 @@
 					},
 					{ passive: true }
 				);
+				window.addEventListener(
+					"blur",
+					function () {
+						document.body.classList.remove("is-cursor-ready");
+					},
+					{ passive: true }
+				);
+				document.addEventListener(
+					"visibilitychange",
+					function () {
+						if (document.hidden) document.body.classList.remove("is-cursor-ready");
+					},
+					{ passive: true }
+				);
 
 				var isTextTarget = function (t) {
 					return !!(
 						t &&
 						t.closest &&
-						t.closest("input, textarea, select, [contenteditable='true']")
+						// Cache le curseur custom sur les éléments où le curseur natif est important
+						t.closest("input, textarea, select, [contenteditable='true'], a, button, label")
 					);
 				};
 				window.addEventListener(
@@ -1503,13 +1531,21 @@
 					viewer.innerHTML = "";
 					hideStatus();
 
+					var isNarrow = false;
+					try {
+						isNarrow = !!(window.matchMedia && window.matchMedia("(max-width: 900px)").matches);
+					} catch (_e) {
+						isNarrow = false;
+					}
+
 					var containerWidth = viewer.clientWidth;
 					if (!containerWidth || containerWidth < 50) {
 						containerWidth = Math.min(window.innerWidth - 32, 1240);
 					}
 
 					var dpr = window.devicePixelRatio || 1;
-					var spread = null;
+					var spreadRoot = null;
+					var spreadMounted = false;
 					function alignSpread(spreadEl) {
 						if (!spreadEl) return;
 						if (window.matchMedia && window.matchMedia("(max-width: 900px)").matches) {
@@ -1548,23 +1584,122 @@
 						wrap.dataset.page = String(pageNum);
 						wrap.appendChild(canvas);
 
-						if (pageNum === 3) {
-							spread = document.createElement("div");
-							spread.className = "pdf-spread";
-							spread.dataset.spread = "3-4";
-							spread.appendChild(wrap);
-						} else if (pageNum === 4 && spread) {
-							var spreadEl = spread;
-							spreadEl.appendChild(wrap);
-							viewer.appendChild(spreadEl);
-							spread = null;
+						// Sur mobile, on garde un flux simple pour respecter l'ordre des pages.
+						if (isNarrow) {
+							viewer.appendChild(wrap);
+						} else if (pageNum === 3) {
+							spreadRoot = document.createElement("div");
+							spreadRoot.className = "pdf-spread";
+							spreadRoot.dataset.spread = "3-4";
+							wrap.style.gridColumn = "1";
+							wrap.style.gridRow = "1";
+							spreadRoot.appendChild(wrap);
+							spreadMounted = false;
+						} else if (pageNum === 4 && spreadRoot) {
+							wrap.style.gridColumn = "2";
+							wrap.style.gridRow = "1";
+							spreadRoot.appendChild(wrap);
+							viewer.appendChild(spreadRoot);
+							spreadMounted = true;
 							// Aligne la page 4 comme la page 2 (sans impacter la mise en page)
-							window.requestAnimationFrame(function () {
-								alignSpread(spreadEl);
+							(function (spreadEl) {
 								window.requestAnimationFrame(function () {
 									alignSpread(spreadEl);
+									window.requestAnimationFrame(function () {
+										alignSpread(spreadEl);
+									});
 								});
-							});
+							})(spreadRoot);
+						} else if (spreadMounted && spreadRoot && pageNum >= 5) {
+							// Demande: pages 5+ sous la page 3 (colonne gauche)
+							// + pages 8-11 dans la colonne droite (page 8 en face de la page 7)
+							// + page 12 et suivantes repassent à gauche, avec 12 en face de 11.
+							if (pageNum >= 61) {
+								wrap.style.gridColumn = "1";
+								// Met 61+ sous 60. 60 est en row 47, donc 61->48, 62->49, etc.
+								wrap.style.gridRow = String(pageNum - 13);
+							} else if (pageNum === 60) {
+								wrap.style.gridColumn = "1";
+								// 60 en face de 59. 59 est en row (59 - 12) = 47.
+								wrap.style.gridRow = String(pageNum - 13);
+							} else if (pageNum >= 57) {
+								wrap.style.gridColumn = "2";
+								// 57 en face de 56 (56 est en row 45 via 56-11), puis 58+ sous 57.
+								wrap.style.gridRow = String(pageNum - 12);
+							} else if (pageNum >= 52) {
+								wrap.style.gridColumn = "1";
+								// 52 en face de 51 (51 est en row 41 via 51-10), puis 53+ sous 52.
+								wrap.style.gridRow = String(pageNum - 11);
+							} else if (pageNum >= 49) {
+								wrap.style.gridColumn = "2";
+								// 49 en face de 48, puis 50+ sous 49.
+								// 48 est en row (48 - 9) = 39, donc 49 doit aussi être row 39.
+								wrap.style.gridRow = String(pageNum - 10);
+							} else if (pageNum >= 44) {
+								wrap.style.gridColumn = "1";
+								// Met 44+ sous 43. 43 est en row 34, donc 44->35, 45->36, etc.
+								wrap.style.gridRow = String(pageNum - 9);
+							} else if (pageNum === 43) {
+								wrap.style.gridColumn = "1";
+								// 43 en face de 42. 42 est en row (42 - 8) = 34.
+								wrap.style.gridRow = "34";
+							} else if (pageNum >= 38) {
+								wrap.style.gridColumn = "2";
+								// Met 38+ sous 37. 37 est en row 29, donc 38->30, 39->31, etc.
+								wrap.style.gridRow = String(pageNum - 8);
+							} else if (pageNum === 37) {
+								wrap.style.gridColumn = "2";
+								// 37 en face de 36. 36 est en row (36 - 7) = 29.
+								wrap.style.gridRow = "29";
+							} else if (pageNum >= 32) {
+								wrap.style.gridColumn = "1";
+								// Met 32+ sous 31. 31 est en row 24, donc 32->25, 33->26, etc.
+								wrap.style.gridRow = String(pageNum - 7);
+							} else if (pageNum === 31) {
+								wrap.style.gridColumn = "1";
+								// 31 en face de 30. Or 30 est en row 24 (30 - 6), donc 31 doit être row 24.
+								wrap.style.gridRow = "24";
+							} else if (pageNum === 21) {
+								wrap.style.gridColumn = "1";
+								// 21 en face de 20. Or 20 est en row 14 (20 - 6), donc 21 doit être row 14.
+								wrap.style.gridRow = "14";
+							} else if (pageNum === 22) {
+								wrap.style.gridColumn = "1";
+								// 22 sous 21 => row 15.
+								wrap.style.gridRow = "15";
+							} else if (pageNum === 23) {
+								wrap.style.gridColumn = "1";
+								// 23 sous 22 => row 16.
+								wrap.style.gridRow = "16";
+							} else if (pageNum === 24) {
+								wrap.style.gridColumn = "1";
+								// 24 sous 23 => row 17.
+								wrap.style.gridRow = "17";
+							} else if (pageNum === 25) {
+								wrap.style.gridColumn = "2";
+								// 25 en face de 24 => row 17.
+								wrap.style.gridRow = "17";
+							} else if (pageNum >= 17) {
+								wrap.style.gridColumn = "2";
+								// 17 sous 16, 18 sous 17, etc. (16 est en row 10)
+								wrap.style.gridRow = String(pageNum - 6);
+							} else if (pageNum === 16) {
+								wrap.style.gridColumn = "2";
+								// 16 en face de 15. Or: 15->10 (car 15-5), donc 16 doit être row 10.
+								wrap.style.gridRow = "10";
+							} else if (pageNum >= 12) {
+								wrap.style.gridColumn = "1";
+								// 12->7 (face à 11), 13->8, 14->9, etc.
+								wrap.style.gridRow = String(pageNum - 5);
+							} else if (pageNum >= 8) {
+								wrap.style.gridColumn = "2";
+								// 8->4 (face à 7), 9->5 (sous 8), 10->6, 11->7
+								wrap.style.gridRow = String(pageNum - 4);
+							} else {
+								wrap.style.gridColumn = "1";
+								wrap.style.gridRow = String(pageNum - 3);
+							}
+							spreadRoot.appendChild(wrap);
 						} else {
 							viewer.appendChild(wrap);
 						}
@@ -1576,7 +1711,9 @@
 					}
 
 					// Sécurité : si le PDF a moins de pages et qu'un spread est resté ouvert
-					if (spread) viewer.appendChild(spread);
+					if (spreadRoot && !spreadMounted) viewer.appendChild(spreadRoot);
+
+
 
 					hideStatus();
 				}
