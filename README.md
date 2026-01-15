@@ -9,9 +9,17 @@ Ce dossier est prêt à être publié en site **GitHub Pages**.
 - `Portfolio.pdf` : PDF
 
 ## Publication (site “user”, URL propre)
-1. Sur GitHub, crée un repository nommé **`<ton_pseudo_github>.github.io`** (exactement).
-2. Dans les **Settings → Pages**, laisse la source sur la branche `main` et le dossier `/ (root)`.
-3. Push ce dossier dans le repo.
+### Option A — "Project site" (repo classique, ex: `Magagoto/Portfolio`)
+1. Dans le repo, va dans **Settings → Pages**.
+2. **Source** : branche `main` + dossier `/ (root)`.
+3. Attends que GitHub affiche l’URL du site.
+
+L’URL sera en général : `https://<ton_pseudo_github>.github.io/<nom_du_repo>/`
+
+### Option B — "User site" (URL à la racine)
+1. Crée un repository nommé **`<ton_pseudo_github>.github.io`** (exactement).
+2. Dans **Settings → Pages**, source `main` + `/ (root)`.
+3. Push ces fichiers à la racine.
 
 L’URL sera : `https://<ton_pseudo_github>.github.io/`
 
@@ -19,3 +27,6 @@ L’URL sera : `https://<ton_pseudo_github>.github.io/`
 Quand tu auras acheté ton domaine :
 - Repo → **Settings → Pages → Custom domain**
 - Ajoute les enregistrements DNS chez ton registrar (A + CNAME) puis active **Enforce HTTPS**.
+
+Note : si tu utilises un domaine personnalisé, GitHub Pages crée/attend souvent un fichier `CNAME`.
+Si le domaine (DNS) n’est pas correctement configuré, le site peut sembler “indisponible” ou rediriger vers un domaine cassé.
