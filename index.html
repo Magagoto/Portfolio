@@ -1088,11 +1088,7 @@
 		</main>
 
 		<footer>
-			<div class="container">
-				<div>
-					© <span id="year"></span> Capello Margot — Alias Magagoto.
-				</div>
-			</div>
+			<div class="container">Copyright © 2026 magagoto, tous droits réservés.</div>
 		</footer>
 
 		<div class="pdf-toast" data-pdf-toast role="status" aria-live="polite">
@@ -1114,8 +1110,6 @@
 
 		<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
 		<script>
-			document.getElementById("year").textContent = String(new Date().getFullYear());
-
 			(function initCustomCursor() {
 				try {
 					if (!(window.matchMedia && window.matchMedia("(hover: hover) and (pointer: fine)").matches)) return;

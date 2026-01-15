@@ -485,6 +485,48 @@
 				color: var(--accent);
 			}
 
+			.social-links {
+				display: flex;
+				align-items: center;
+				gap: 10px;
+				flex-wrap: wrap;
+			}
+			.social-link,
+			.social-soon {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 40px;
+				height: 40px;
+				border-radius: 14px;
+				border: 1px solid var(--border);
+				background: rgba(255, 255, 255, 0.92);
+				color: var(--fg);
+				text-decoration: none;
+				transition: transform 160ms ease, border-color 160ms ease, background 160ms ease,
+					color 160ms ease;
+			}
+			.social-link:hover {
+				transform: translateY(-1px);
+				border-color: color-mix(in srgb, var(--accent) 28%, var(--border));
+				background: var(--surface);
+				color: var(--accent);
+			}
+			.social-link:focus {
+				outline: 2px solid var(--accent);
+				outline-offset: 2px;
+			}
+			.social-link svg,
+			.social-soon svg {
+				width: 18px;
+				height: 18px;
+				display: block;
+			}
+			.social-soon {
+				opacity: 0.45;
+				cursor: not-allowed;
+			}
+
 			form {
 				display: grid;
 				grid-template-columns: 1fr 1fr;
@@ -839,7 +881,50 @@
 						<div class="v"><a class="link" href="tel:+33781523259">07 81 52 32 59</a></div>
 
 						<div class="k">Réseaux</div>
-						<div class="v"><a class="link" href="#">Instagram / Behance / LinkedIn</a></div>
+						<div class="v">
+							<div class="social-links" aria-label="Réseaux sociaux">
+								<a
+									class="social-link"
+									href="https://www.linkedin.com/in/margot-capello-42b7331b6/?originalSubdomain=fr"
+									target="_blank"
+									rel="noreferrer noopener"
+									aria-label="LinkedIn"
+									title="LinkedIn"
+								>
+									<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+										<path
+											fill="currentColor"
+											d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.44-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.35-1.85 3.58 0 4.24 2.36 4.24 5.42v6.32zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.46c.98 0 1.77-.77 1.77-1.72V1.72C24 .77 23.21 0 22.23 0z"
+										/>
+									</svg>
+								</a>
+
+								<a
+									class="social-link"
+									href="https://www.instagram.com/magagoto_design/?utm_source=ig_web_button_share_sheet"
+									target="_blank"
+									rel="noreferrer noopener"
+									aria-label="Instagram"
+									title="Instagram"
+								>
+									<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+										<path
+											fill="currentColor"
+											d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.25-2.1a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2z"
+										/>
+									</svg>
+								</a>
+
+								<span class="social-soon" aria-label="Behance (bientôt)" title="Behance (bientôt)">
+									<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+										<path
+											fill="currentColor"
+											d="M8.7 11.2c1.2-.6 1.9-1.7 1.9-3.1C10.6 5.7 9 4 6 4H0v16h6.3c3.3 0 5.4-1.6 5.4-4.6 0-2.1-1.1-3.5-3-4.2zM3 6.6h2.7c1.2 0 1.8.5 1.8 1.6 0 1.1-.6 1.6-1.8 1.6H3V6.6zm3.1 10.8H3v-5h3c1.5 0 2.4.7 2.4 2.5 0 1.8-.9 2.5-2.3 2.5zM14.6 7.2h5.2V5h-5.2v2.2zM17.4 8.2c-3 0-5.1 2.2-5.1 5.7 0 3.6 2.1 5.8 5.3 5.8 2.6 0 4.3-1.3 4.9-3.6h-2.7c-.2.8-1 1.4-2.2 1.4-1.4 0-2.4-.9-2.4-2.6h7.4c.1-.4.1-.8.1-1.2 0-3.2-1.9-5.5-5.3-5.5zm-2.1 4.6c.2-1.4 1.1-2.3 2.2-2.3 1.4 0 2.2.8 2.2 2.3h-4.4z"
+										/>
+									</svg>
+								</span>
+							</div>
+						</div>
 					</div>
 				</div>
 
@@ -860,7 +945,6 @@
 						</div>
 						<div class="actions">
 							<button class="btn primary" type="submit">Envoyer</button>
-							<p class="note">(Ouvre ton client mail. Alternative : envoie directement un email.)</p>
 						</div>
 					</form>
 				</div>
