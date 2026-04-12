@@ -1,2 +1,9 @@
 .DS_Store
 *.log
+
+# Médias / exports lourds (GitHub refuse >100MB)
+*.mov
+*.mp4
+
+# Fichiers temporaires InDesign
+*.idlk
